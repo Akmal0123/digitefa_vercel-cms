@@ -77,7 +77,7 @@ const Login = () => {
       message.success("Login successful!");
       navigateTo("/dashboard?loginSuccess");
     } catch (error) {
-      if (error.data.statusCode) {
+      if (error?.data?.statusCode) {
         if (error.data.statusCode === 404) {
           message.destroy();
           message.error(
@@ -89,8 +89,10 @@ const Login = () => {
             "Incorrect password. Please check your password again."
           );
         } else {
-          message.error("Login failed. Please try again.");
+          message.error(error.data.message || "Login failed. Please try again.");
         }
+      } else {
+        message.error("Login failed. Cannot connect to the server.");
       }
     } finally {
       setLoading(false);
